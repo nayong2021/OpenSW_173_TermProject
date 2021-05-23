@@ -46,9 +46,11 @@ validation_img = total_img[int(0.8 * total_len):, :, :, :]
 validation_label = label[int(0.8 * total_len):]
 
 model = ResNet50(input_shape=(224, 224, 3), include_top=False)
+flatten = Flatten()
+batch_normal = BatchNormalization()
 layer1 = Dense(128, input_dim=1,  activation='relu')
 layer2 = Dense(1, activation='sigmoid')
-model = Sequential([model, layer1, layer2])
+model = Sequential([model, flatten, layer1, batch_normal, layer2])
 model.summary()
 model.compile(optimizer='adam',
               loss='binary_crossentropy',
